@@ -71,9 +71,14 @@ class RotateStream(object):
 if __name__ == '__main__':
    parser = OptionParser()
    parser.add_option('-t', '--tags', dest="tags", help="Ignore Markup Tags", default=False, action="store_true")
+   parser.add_option('-s', '--string', dest="string", help="Accept command-line value", default=False, action="store_true")
    
    options, args = parser.parse_args()
    rotator = RotateStream(options.tags)
    
-   for letter in rotator.rotate_from_file(sys.stdin):
-       sys.stdout.write(letter)
+   if options.string:
+       for letter in sys.argv[2]:
+           sys.stdout.write(rotator.rotate13_letter(letter))
+   else:
+       for letter in rotator.rotate_from_file(sys.stdin):
+           sys.stdout.write(letter)
